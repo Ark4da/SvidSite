@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Свидание ❤️</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app" id="app">
+
+  <!-- ЭКРАН 1 — Приглашение -->
+  <div class="screen active" id="screen1">
+    <div class="card">
+      <div class="step-dots">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+
+
+      <h1>Ты пойдёшь на свидание со мной? ❤️</h1>
+
+      <div class="buttons">
+        <button class="yes" id="yesBtn">Да! 💕</button>
+        <button class="no" id="noBtn">Нет</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ЭКРАН 2 — Выбор даты и времени -->
+  <div class="screen" id="screen2">
+    <div class="card">
+      <div class="step-dots">
+        <div class="dot"></div>
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+
+      <h1>Когда встретимся? 💕</h1>
+
+      <div class="form-group">
+        <label>📅 Дата</label>
+        <input type="date" id="date">
+      </div>
+
+      <div class="form-group">
+        <label>⏰ Время</label>
+        <input type="time" id="time">
+      </div>
+
+      <button class="confirm" id="confirmBtn">Дальше ✨</button>
+    </div>
+  </div>
+
+  <!-- ЭКРАН 3 — Выбор еды -->
+  <div class="screen" id="screen3">
+    <div class="card">
+      <div class="step-dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot active"></div>
+        <div class="dot"></div>
+      </div>
+
+      <h1>Что будем делать? </h1>
+
+      <div class="food-grid" id="foodGrid">
+        <div class="food-card" data-food="TikTok">
+  <img src="TIKTOK.png" width="40" height="40">
+  <div class="food-name">TikTok</div>
+  <div class="food-desc">На лавочке</div>
+</div>
+        <div class="food-card" data-food="Youtube">
+          <img src="Youtube.png" width="40" height="40">
+          <div class="food-name">Ютубчик</div>
+          <div class="food-desc">У меня дома</div>
+        </div>
+        <div class="food-card" data-food="TikTok">
+  <img src="TIKTOK.png" width="40" height="40">
+  <div class="food-name">TikTok</div>
+  <div class="food-desc">Дома в обнимку</div>
+</div>
+        <div class="food-card" data-food="Мак">
+          <img src="McD.png" width="40" height="40">
+          <div class="food-name">Мак</div>
+          <div class="food-desc">Чизбургер и картошечка</div>
+        </div>
+        <div class="food-card" data-food="Апероль">
+          <img src="Aper.png" width="40" height="40">
+          <div class="food-name">Апероль</div>
+          <div class="food-desc">Мне не понравится, но за то ты будешь рада</div>
+        </div>
+        <div class="food-card" data-food="Играть в компик">
+          <img src="lap.png" width="40" height="40">
+          <div class="food-name">Играть в компик</div>
+          <div class="food-desc">Я буду счастлив</div>
+        </div>
+      </div>
+
+      <button class="next-btn" id="foodNextBtn">Подтвердить ❤️</button>
+    </div>
+  </div>
+
+  <!-- ЭКРАН 4 — Итог -->
+  <div class="screen" id="screen4">
+    <div class="card">
+      <div class="step-dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot active"></div>
+      </div>
+
+      <div class="result-big">🎉</div>
+      <div class="result-text">Ура! Не могу дождаться встречи! ❤️</div>
+      <div class="date-info" id="resultInfo"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const screens = [...document.querySelectorAll('.screen')];
+  const app = document.getElementById('app');
+  let selectedFood = '';
+  let savedDate = '', savedTime = '';
+
+  function go(id) {
+    screens.forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  /* Кнопка НЕТ убегает */
+  const noBtn = document.getElementById('noBtn');
+  function moveNo() {
+    const card = noBtn.closest('.card');
+    const cw = card.offsetWidth || 320;
+    const maxX = cw - 180;
+    const nx = Math.random() * maxX - 80;
+    const ny = Math.random() * 20;
+    noBtn.style.transform = `translate(${nx}px, ${ny}px)`;
+  }
+  noBtn.addEventListener('mouseenter', moveNo);
+  noBtn.addEventListener('touchstart', e => { e.preventDefault(); moveNo(); });
+
+  /* ДА */
+  document.getElementById('yesBtn').addEventListener('click', () => {
+    spawnHearts(8);
+    setTimeout(() => go('screen2'), 300);
+  });
+
+  /* Дата → экран 3 */
+  document.getElementById('confirmBtn').addEventListener('click', () => {
+    savedDate = document.getElementById('date').value;
+    savedTime = document.getElementById('time').value;
+    go('screen3');
+  });
+
+  /* Выбор еды */
+  const foodCards = document.querySelectorAll('.food-card');
+  const foodNextBtn = document.getElementById('foodNextBtn');
+  foodCards.forEach(card => {
+    card.addEventListener('click', () => {
+      foodCards.forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      selectedFood = card.dataset.food;
+      foodNextBtn.classList.add('enabled');
+    });
+  });
+
+  foodNextBtn.addEventListener('click', () => {
+    if (!selectedFood) return;
+    const info = document.getElementById('resultInfo');
+    const dStr = savedDate
+      ? new Date(savedDate).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })
+      : 'скоро';
+    const tStr = savedTime || '18:00';
+    info.innerHTML =
+      `<strong>📅 Дата:</strong> ${dStr}<br>
+       <strong>⏰ Время:</strong> ${tStr}<br>
+       <strong> Будем:</strong> <span class="food-choice">${selectedFood}</span>`;
+    spawnHearts(20);
+    go('screen4');
+  });
+
+  /* Сердечки */
+  function spawnHearts(n = 8) {
+    const emojis = ['❤️', '💕', '✨', '💖', '🌸'];
+    for (let i = 0; i < n; i++) {
+      setTimeout(() => {
+        const h = document.createElement('div');
+        h.classList.add('heart');
+        h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        h.style.left = Math.random() * 90 + '%';
+        h.style.bottom = '30px';
+        h.style.animationDuration = (2 + Math.random() * 2.5) + 's';
+        app.appendChild(h);
+        setTimeout(() => h.remove(), 4500);
+      }, i * 80);
+    }
+  }
+
+  /* Фоновые сердечки */
+  setInterval(() => {
+    const h = document.createElement('div');
+    h.classList.add('heart');
+    h.textContent = ['❤️', '💕', '🌸', '✨'][Math.floor(Math.random() * 4)];
+    h.style.left = Math.random() * 90 + '%';
+    h.style.bottom = '0px';
+    h.style.animationDuration = (4 + Math.random() * 4) + 's';
+    h.style.fontSize = (14 + Math.random() * 14) + 'px';
+    app.appendChild(h);
+    setTimeout(() => h.remove(), 8000);
+  }, 800);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,341 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ffd6e7, #ffeaf4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* ─── APP WRAPPER ─── */
+.app {
+  width: 100%;
+  max-width: 440px;
+  padding: 20px;
+  position: relative;
+}
+
+/* ─── SCREENS ─── */
+.screen {
+  display: none;
+  animation: fadeIn 0.5s ease;
+}
+
+.screen.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── CARD ─── */
+.card {
+  background: #fff;
+  border-radius: 28px;
+  padding: 28px 26px 30px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(255, 77, 135, 0.18);
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── STEP DOTS ─── */
+.step-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ffd4e4;
+  transition: background 0.35s;
+}
+
+.dot.active {
+  background: #ff5d97;
+}
+
+/* ─── PHOTO ─── */
+.photo {
+  width: 170px;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 20px;
+  margin-bottom: 18px;
+  border: 4px solid #ffe0ee;
+  animation: pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0   rgba(255, 93, 151, 0.3); }
+  50%       { box-shadow: 0 0 0 12px rgba(255, 93, 151, 0.0); }
+}
+
+/* ─── HEADINGS ─── */
+h1 {
+  color: #ff4f87;
+  font-size: 26px;
+  line-height: 1.35;
+  margin-bottom: 22px;
+}
+
+/* ─── BUTTONS SCREEN 1 ─── */
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+  position: relative;
+  min-height: 60px;
+}
+
+.yes {
+  background: linear-gradient(135deg, #ff5d97, #ff3a7d);
+  color: #fff;
+  padding: 15px 40px;
+  border-radius: 14px;
+  font-size: 17px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(255, 60, 125, 0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.yes:hover {
+  transform: scale(1.07);
+  box-shadow: 0 8px 24px rgba(255, 60, 125, 0.45);
+}
+
+.no {
+  background: linear-gradient(135deg, #7c65ff, #5a40ff);
+  color: #fff;
+  padding: 15px 40px;
+  border-radius: 14px;
+  font-size: 17px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+/* ─── FORM ─── */
+.form-group {
+  text-align: left;
+  margin-bottom: 16px;
+}
+
+label {
+  display: block;
+  margin-bottom: 7px;
+  color: #aaa;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+input {
+  width: 100%;
+  padding: 13px 16px;
+  border: 2px solid #ffd4e4;
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s;
+  color: #333;
+}
+
+input:focus {
+  border-color: #ff5d97;
+}
+
+/* ─── CONFIRM BUTTON ─── */
+.confirm {
+  width: 100%;
+  background: linear-gradient(135deg, #ff5d97, #ff3a7d);
+  color: #fff;
+  padding: 15px;
+  border-radius: 14px;
+  font-size: 17px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  box-shadow: 0 4px 18px rgba(255, 60, 125, 0.3);
+  transition: transform 0.2s;
+  letter-spacing: 0.3px;
+}
+
+.confirm:hover {
+  transform: scale(1.02);
+}
+
+/* ─── FOOD GRID ─── */
+.food-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.food-card {
+  border: 2.5px solid #ffd4e4;
+  border-radius: 16px;
+  padding: 16px 10px;
+  cursor: pointer;
+  transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+  background: #fff;
+}
+
+.food-card:hover {
+  border-color: #ff5d97;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(255, 93, 151, 0.2);
+}
+
+.food-card.selected {
+  border-color: #ff5d97;
+  background: linear-gradient(135deg, #fff0f5, #ffe8f1);
+  box-shadow: 0 6px 20px rgba(255, 93, 151, 0.2);
+}
+
+.food-emoji {
+  font-size: 40px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.food-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #333;
+}
+
+.food-desc {
+  font-size: 12px;
+  color: #bbb;
+  margin-top: 3px;
+}
+
+/* ─── NEXT BUTTON (food screen) ─── */
+.next-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #ff5d97, #ff3a7d);
+  color: #fff;
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 17px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(255, 60, 125, 0.3);
+  transition: transform 0.2s, opacity 0.2s;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.next-btn.enabled {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.next-btn.enabled:hover {
+  transform: scale(1.02);
+}
+
+/* ─── RESULT SCREEN ─── */
+.result-big {
+  font-size: 58px;
+  margin-bottom: 12px;
+  animation: bounceIn 0.6s ease;
+}
+
+@keyframes bounceIn {
+  0%   { transform: scale(0.3); }
+  60%  { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+.result-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ff4f87;
+  line-height: 1.5;
+}
+
+.date-info {
+  margin-top: 16px;
+  background: #fff5f9;
+  border-radius: 14px;
+  padding: 14px 16px;
+  color: #666;
+  font-size: 15px;
+  line-height: 1.9;
+  text-align: left;
+}
+
+.date-info strong {
+  color: #ff5d97;
+}
+
+.food-choice {
+  display: inline-block;
+  margin-top: 4px;
+  background: linear-gradient(135deg, #ffd6e7, #ffe8f1);
+  border-radius: 10px;
+  padding: 4px 14px;
+  font-size: 15px;
+  color: #ff4f87;
+  font-weight: 700;
+}
+
+/* ─── FLOATING HEARTS ─── */
+.heart {
+  position: fixed;
+  pointer-events: none;
+  animation: floatUp linear forwards;
+  font-size: 22px;
+  z-index: 0;
+}
+
+@keyframes floatUp {
+  0%   { transform: translateY(0)    scale(1)   rotate(0deg);  opacity: 1; }
+  100% { transform: translateY(-95vh) scale(0.5) rotate(20deg); opacity: 0; }
+}
+
+/* ─── MOBILE ─── */
+@media (max-width: 480px) {
+  .app { padding: 14px; }
+
+  .card { padding: 22px 18px 26px; border-radius: 22px; }
+
+  .photo { width: 140px; height: 140px; }
+
+  h1 { font-size: 22px; }
+
+  .yes, .no, .confirm, .next-btn {
+    font-size: 15px;
+    padding: 13px 26px;
+  }
+
+  .food-emoji { font-size: 32px; }
+
+  .result-big  { font-size: 46px; }
+  .result-text { font-size: 20px; }
+  .date-info   { font-size: 14px; }
+}
