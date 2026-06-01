@@ -155,10 +155,16 @@
 
   /* Дата → экран 3 */
   document.getElementById('confirmBtn').addEventListener('click', () => {
-    savedDate = document.getElementById('date').value;
-    savedTime = document.getElementById('time').value;
-    go('screen3');
-  });
+  const d = document.getElementById('date');
+  const t = document.getElementById('time');
+  if (!d.value) { d.style.borderColor = '#ff3a7d'; return; }
+  if (!t.value) { t.style.borderColor = '#ff3a7d'; return; }
+  d.style.borderColor = '#ffd4e4';
+  t.style.borderColor = '#ffd4e4';
+  savedDate = d.value;
+  savedTime = t.value;
+  go('screen3');
+});
 
   /* Выбор еды */
   const foodCards = document.querySelectorAll('.food-card');
@@ -172,7 +178,7 @@
     });
   });
 
-  foodNextBtn.addEventListener('click', () => {
+  foodNextBtn.addEventListener('click', async () => {
     if (!selectedFood) return;
     const info = document.getElementById('resultInfo');
     const dStr = savedDate
@@ -184,7 +190,18 @@
        <strong>⏰ Время:</strong> ${tStr}<br>
        <strong> Будем:</strong> <span class="food-choice">${selectedFood}</span>`;
     spawnHearts(20);
-    go('screen4');
+    try {
+  const res = await fetch('/api/response', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ date: savedDate, time: savedTime, food: selectedFood })
+  });
+  if (!res.ok) throw new Error();
+  spawnHearts(20);
+  go('screen4');
+} catch {
+  alert('Ошибка сохранения, попробуй ещё раз');
+}
   });
 
   /* Сердечки */
